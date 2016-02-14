@@ -17,4 +17,10 @@ class Profile < ActiveRecord::Base
             errors.add(:profile, "Sue is not a male name")
         end
     end
+    
+    scope :ordered_by_birth_year, -> { order birth_year: :asc }
+    
+    def self.get_all_profiles(miny, maxy)
+       Profile.ordered_by_birth_year.where("birth_year BETWEEN ? AND ?", miny, maxy).to_a 
+    end
 end
